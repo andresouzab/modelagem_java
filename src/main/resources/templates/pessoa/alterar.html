@@ -8,14 +8,14 @@
   </head>
   <body>
     <div th:fragment="content" class="container">
-        <form action="/pessoa/criar" method="post">
+        <form th:object="${pessoa}" th:action="@{/pessoa/alterar/{id}(id=${id})}" method="post">
             <div class="mb-3">
-              <label for="carteira" class="form-label">Carteira</label>
-              <input type="text" class="form-control" name="carteira" id="carteira">
+              <label for="carteira" class="form-label">Alteração de Informações</label>
+              <input th:field="*{carteira}" type="text" class="form-control" name="carteira" id="carteira">
             </div>
             <div class="mb-3">
               <label for="negociador" class="form-label">Negociador(a)</label>
-              <input type="text" class="form-control" name="negociador" id="negociador">
+              <input th:field="*{negociador}" type="text" class="form-control" name="negociador" id="negociador">
             </div>
         <button type="submit" class="btn btn-primary">Salvar</button>
           </form>
