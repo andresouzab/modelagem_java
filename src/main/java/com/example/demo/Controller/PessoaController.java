@@ -33,30 +33,61 @@ public class PessoaController {
     }
 
     @GetMapping("/pessoa/listar")
-    public ModelAndView listar(){
+    public ModelAndView listar(@RequestParam("visualizacao")Optional<String> visualiazacao){
         ModelAndView view = new ModelAndView("pessoa/listar");
-        List<Pessoa> pessoas = pr.findAll();
+        String valor = visualiazacao.orElse("ativo");
+        List<Pessoa> pessoas = pr.findByAtivo(valor == "ativo");
         Long quantidadePessoas = pr.count();
 
         
         view.addObject("pessoas", pessoas);
-        view.addObject("qtd", quantidadePessoas);
+        view.addObject("qtd", pessoas.size());
         return view;
 
     }
 
-    @GetMapping("pessoa/alterar")
-    public ModelAndView alterar(@RequestParam("id") Optional<Long> id){
+    @GetMapping("pessoa/alterar/{id}")
+    public ModelAndView alterar(@PathVariable Long id){
         ModelAndView view = new ModelAndView("pessoa/alterar");
-        Optional<Pessoa> pessoa = pr.findById(Long.valueOf(2));
+        Optional<Pessoa> pessoa = pr.findById(id);
 
         view.addObject("pessoa", pessoa);
-        view.addObject("id", (Long.valueOf(2)));
+        view.addObject("id", id);
         return view;
     }
 
+    @PostMapping("/pessoa/alterar/{id}")
+    public String alterar(@PathVariable Long id, Pessoa pessoa){
+        this.pr.save(pessoa);
+        return "redirect:/pessoa/listar";
+    }
 
-    @GetMapping("/pessoa/apresentar")
+    @GetMapping("/pessoa/deletar/{id}")
+    public String deletar(@PathVariable Long id){
+        Optional<Pessoa> pessoa = this.pr.findById(id);
+        Pessoa pessoaModel = pessoa.get();
+
+        pessoaModel.setAtivo(false);
+
+        pr.save(pessoaModel);
+
+        return "redirect:/pessoa/listar";
+    }
+
+    @GetMapping("/pessoa/recuperar/{id}")
+    public String recuperar(@PathVariable Long id){
+        Optional<Pessoa> pessoa = this.pr.findById(id);
+        Pessoa pessoaModel = pessoa.get();
+
+        pessoaModel.setAtivo(true);
+
+        pr.save(pessoaModel);
+
+        return "redirect:/pessoa/listar";
+    }
+
+
+   /*  @GetMapping("/pessoa/apresentar")
     public ModelAndView apresentar(){
         String nome = "João";
 
@@ -64,5 +95,5 @@ public class PessoaController {
         view.addObject("nome", nome);
 
         return view;
-    }
+    } */ //não está sendo usado
 }

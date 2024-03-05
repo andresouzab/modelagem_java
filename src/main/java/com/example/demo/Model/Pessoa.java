@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,6 +25,9 @@ public class Pessoa {
 
     @Column(name = "email", nullable = true, length = 250)
     private String email;
+
+    @Column(name = "ativo", nullable = false, columnDefinition = "boolean default true")
+    private boolean ativo = true; 
 
     public String getCarteira(){
         return this.carteira;
@@ -49,4 +53,12 @@ public class Pessoa {
         this.id = id;
     }
 
+    public boolean isAtivo(){
+        return this.ativo;
+    }
+
+    public void setAtivo(boolean ativo){
+        this.ativo = ativo;
+    }
+   
 }

@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -33,6 +34,12 @@ public class Avaliacao {
     
     @Column(name = "renegociacao", nullable = true, length = 250)
     private String renegociacao;
+
+    @Column(name = "ativo", nullable = false, columnDefinition = "boolean default true")
+    private boolean ativo = true; 
+
+    @ManyToOne
+    private Pessoa pessoa;
 
     public String getSondagem(){
         return this.sondagem;
@@ -81,5 +88,26 @@ public class Avaliacao {
     public void setRenegociacao(String renegociacao){
         this.renegociacao = renegociacao;
     }
+
+    public boolean isAtivo() {
+        return this.ativo;
+    }
+
+    public boolean getAtivo() {
+        return this.ativo;
+    }
+
+    public void setAtivo(boolean ativo) {
+        this.ativo = ativo;
+    }  
+
+    public Pessoa getPessoa(){
+        return this.pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa){
+        this.pessoa = pessoa;
+    
+}
 
 }

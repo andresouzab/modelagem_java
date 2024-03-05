@@ -10,6 +10,10 @@
     <div th:fragment="content" class="container">
         <div class="mb-3">
             <h3 class="card-title">Listagem de Pessoas <span th:text="${qtd}" ></span></h3>
+            <div class="btn-group">
+                <a class="btn btn-success" href="/pessoa/criar">Adicionar</a>
+                <a class="btn btn-primary" href="/pessoa/listar?visualizacao=removidos">Ver excluidos</a>
+            </div>
         </div>
         <div class="card-body">
             <table class="table table-bordered">
@@ -22,7 +26,11 @@
                     <td th:text="${pessoa.id}"></td>
                     <td th:text="${pessoa.carteira}"></td>
                     <td th:text="${pessoa.negociador}"></td>
-                    <td>Ações</td>
+                    <td>
+                        <a class="btn btn-primary" th:href="@{/pessoa/alterar/{id}(id=${pessoa.id})}">Alterar</a>
+                        <a class="btn btn-danger" th:href="@{/pessoa/deletar/{id}(id=${pessoa.id})}">Deletar</a>
+                        <a class="btn btn-warning" th:href="@{/pessoa/recuperar/{id}(id=${pessoa.id})}">Recuperar</a>
+                    </td>
                 </tr>
             </table>
 
